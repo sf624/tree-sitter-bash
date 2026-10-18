@@ -2129,22 +2129,8 @@
                   "value": "[["
                 },
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_expression"
-                    },
-                    {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "_test_command_binary_expression"
-                      },
-                      "named": true,
-                      "value": "binary_expression"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "_expression"
                 },
                 {
                   "type": "STRING",
@@ -2155,44 +2141,6 @@
           ]
         }
       ]
-    },
-    "_test_command_binary_expression": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "="
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_regex_no_space"
-              },
-              "named": true,
-              "value": "regex"
-            }
-          }
-        ]
-      }
     },
     "declaration_command": {
       "type": "PREC_LEFT",
@@ -3081,7 +3029,7 @@
             },
             {
               "type": "PREC_LEFT",
-              "value": 1,
+              "value": 8,
               "content": {
                 "type": "SEQ",
                 "members": [
@@ -3097,17 +3045,41 @@
                     "type": "FIELD",
                     "name": "operator",
                     "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "="
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "=~"
-                        }
-                      ]
+                      "type": "STRING",
+                      "value": "="
+                    }
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "right",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PREC_LEFT",
+              "value": 8,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "FIELD",
+                    "name": "left",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    }
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "operator",
+                    "content": {
+                      "type": "STRING",
+                      "value": "=~"
                     }
                   },
                   {
@@ -3578,7 +3550,7 @@
         },
         {
           "type": "PREC",
-          "value": 1,
+          "value": 8,
           "content": {
             "type": "SEQ",
             "members": [
@@ -3641,6 +3613,10 @@
                     {
                       "type": "STRING",
                       "value": "!="
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "="
                     }
                   ]
                 }
@@ -3803,7 +3779,7 @@
         },
         {
           "type": "PREC_RIGHT",
-          "value": 11,
+          "value": 7,
           "content": {
             "type": "SEQ",
             "members": [

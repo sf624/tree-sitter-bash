@@ -441,20 +441,9 @@ module.exports = grammar({
         seq('[', optional(choice($._expression, $.redirected_statement)), ']'),
         seq(
           '[[',
-          choice(
-            $._expression,
-            alias($._test_command_binary_expression, $.binary_expression),
-          ),
+          $._expression,
           ']]',
         ),
-      ),
-    ),
-
-    _test_command_binary_expression: $ => prec(PREC.ASSIGN,
-      seq(
-        field('left', $._expression),
-        field('operator', '='),
-        field('right', alias($._regex_no_space, $.regex)),
       ),
     ),
 
@@ -611,7 +600,8 @@ module.exports = grammar({
     binary_expression: $ => {
       const table = [
         [choice('+=', '-=', '*=', '/=', '%=', '**=', '<<=', '>>=', '&=', '^=', '|='), PREC.UPDATE],
-        [choice('=', '=~'), PREC.ASSIGN],
+        ['=', PREC.EQUALITY],
+        ['=~', PREC.EQUALITY],
         ['||', PREC.LOGICAL_OR],
         ['&&', PREC.LOGICAL_AND],
         ['|', PREC.BITWISE_OR],
@@ -636,14 +626,14 @@ module.exports = grammar({
             field('right', $._expression),
           ));
         })),
-        prec(PREC.ASSIGN, seq(
+        prec(PREC.EQUALITY, seq(
           field('left', $._expression),
           field('operator', '=~'),
           field('right', alias($._regex_no_space, $.regex)),
         )),
         prec(PREC.EQUALITY, seq(
           field('left', $._expression),
-          field('operator', choice('==', '!=')),
+          field('operator', choice('==', '!=', '=')),
           field('right', $._extglob_blob),
         )),
       );
@@ -666,7 +656,7 @@ module.exports = grammar({
         field('operator', tokenLiterals(1, '-', '+', '~')),
         $._expression,
       )),
-      prec.right(PREC.UNARY, seq(
+      prec.right(PREC.BITWISE_AND, seq(
         field('operator', '!'),
         $._expression,
       )),

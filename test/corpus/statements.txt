@@ -1210,16 +1210,16 @@ Test commands with regexes
         (variable_name))
       (regex)))
   (test_command
-    (binary_expression
-      (unary_expression
+    (unary_expression
+      (binary_expression
         (string
           (expansion
             (subscript
               (variable_name)
-              (word)))))
-      (string
-        (simple_expansion
-          (variable_name)))))
+              (word))))
+        (string
+          (simple_expansion
+            (variable_name))))))
   (negated_command
     (test_command
       (binary_expression
@@ -1347,7 +1347,7 @@ Test commands with regexes
     (binary_expression
       (simple_expansion
         (variable_name))
-      (regex))))
+      (extglob_pattern))))
 
 ================================================================================
 Test command paren statefulness with a case glob
@@ -1889,3 +1889,92 @@ while (echo $BASHPID; true); do echo $BASHPID; break; done
       (command
         (command_name
           (word))))))
+
+================================================================================
+Test commands with =~ and = inside && and ||
+================================================================================
+
+[[ -f a && $x =~ ^re ]]
+[[ $x =~ ^re || -d b ]]
+[[ -f a && $x = foo ]]
+
+--------------------------------------------------------------------------------
+
+(program
+  (test_command
+    (binary_expression
+      (unary_expression
+        (test_operator)
+        (word))
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (regex))))
+  (test_command
+    (binary_expression
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (regex))
+      (unary_expression
+        (test_operator)
+        (word))))
+  (test_command
+    (binary_expression
+      (unary_expression
+        (test_operator)
+        (word))
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (word)))))
+
+================================================================================
+Test commands with negation
+================================================================================
+
+[[ ! $x =~ ^re ]]
+[[ ! $a -eq 1 ]]
+[[ ! -f a && -d b ]]
+[ ! $a -eq 1 ]
+[ ! "$a" = b ]
+
+--------------------------------------------------------------------------------
+
+(program
+  (test_command
+    (unary_expression
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (regex))))
+  (test_command
+    (unary_expression
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (test_operator)
+        (number))))
+  (test_command
+    (binary_expression
+      (unary_expression
+        (unary_expression
+          (test_operator)
+          (word)))
+      (unary_expression
+        (test_operator)
+        (word))))
+  (test_command
+    (unary_expression
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (test_operator)
+        (number))))
+  (test_command
+    (unary_expression
+      (binary_expression
+        (string
+          (simple_expansion
+            (variable_name)))
+        (extglob_pattern)))))
