@@ -3626,7 +3626,7 @@
                 "name": "right",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_extglob_blob"
+                  "name": "_test_pattern"
                 }
               }
             ]
@@ -6650,6 +6650,88 @@
           "value": ")"
         }
       ]
+    },
+    "_test_pattern": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "extglob_pattern"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "~[^\\s\"'`$()|&;<>\\]]*"
+                    }
+                  }
+                },
+                "named": true,
+                "value": "extglob_pattern"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "extglob_pattern"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "IMMEDIATE_TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "([^\\s\"'`$&;<>\\\\]|\\\\.)+"
+                      }
+                    }
+                  },
+                  "named": true,
+                  "value": "extglob_pattern"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "string"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "raw_string"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "expansion"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "simple_expansion"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "command_substitution"
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "_extglob_blob": {
       "type": "CHOICE",

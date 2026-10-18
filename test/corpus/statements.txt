@@ -1978,3 +1978,100 @@ Test commands with negation
           (simple_expansion
             (variable_name)))
         (extglob_pattern)))))
+
+================================================================================
+Test commands with = and a glob
+================================================================================
+
+[[ $x = *.txt || $x = *.sh ]]
+[[ $x = foo* ]]
+[[ $x != *.txt ]]
+[[ $x == *.txt ]]
+
+--------------------------------------------------------------------------------
+
+(program
+  (test_command
+    (binary_expression
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (word))
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (word))))
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (extglob_pattern)))
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (word)))
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (word))))
+
+================================================================================
+Test commands with patterns of several parts
+================================================================================
+
+[[ $x = *"$y"*z ]]
+[[ $PATH == *":$d:"* ]]
+[[ $x == *"A B"* ]]
+[[ $x == @(*/|[.~])* ]]
+[[ $x == ~ ]]
+[[ $x == ~/a* ]]
+
+--------------------------------------------------------------------------------
+
+(program
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (extglob_pattern)
+      (string
+        (simple_expansion
+          (variable_name)))
+      (extglob_pattern)))
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (extglob_pattern)
+      (string
+        (string_content)
+        (simple_expansion
+          (variable_name))
+        (string_content))
+      (extglob_pattern)))
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (extglob_pattern)
+      (string
+        (string_content))
+      (extglob_pattern)))
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (extglob_pattern)
+      (extglob_pattern)))
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (extglob_pattern)))
+  (test_command
+    (binary_expression
+      (simple_expansion
+        (variable_name))
+      (extglob_pattern))))

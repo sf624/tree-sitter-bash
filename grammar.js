@@ -634,7 +634,7 @@ module.exports = grammar({
         prec(PREC.EQUALITY, seq(
           field('left', $._expression),
           field('operator', choice('==', '!=', '=')),
-          field('right', $._extglob_blob),
+          field('right', $._test_pattern),
         )),
       );
     },
@@ -1080,6 +1080,11 @@ module.exports = grammar({
       $._statements,
       ')',
     ),
+
+    _test_pattern: $ => prec.right(seq(
+      choice($.extglob_pattern, alias(token(prec(2, /~[^\s"'`$()|&;<>\]]*/)), $.extglob_pattern)),
+      repeat(choice($.extglob_pattern, alias(token.immediate(prec(1, /([^\s"'`$&;<>\\]|\\.)+/)), $.extglob_pattern), $.string, $.raw_string, $.expansion, $.simple_expansion, $.command_substitution)),
+    )),
 
     _extglob_blob: $ => choice(
       $.extglob_pattern,
