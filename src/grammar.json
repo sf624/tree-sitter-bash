@@ -6100,6 +6100,10 @@
               "members": [
                 {
                   "type": "SYMBOL",
+                  "name": "simple_expansion"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "_simple_variable_name"
                 },
                 {
@@ -6230,6 +6234,10 @@
     "_expansion_max_length_expression": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "simple_expansion"
+        },
         {
           "type": "SYMBOL",
           "name": "_simple_variable_name"

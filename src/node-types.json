@@ -511,6 +511,10 @@
           "named": true
         },
         {
+          "type": "simple_expansion",
+          "named": true
+        },
+        {
           "type": "variable_name",
           "named": true
         }

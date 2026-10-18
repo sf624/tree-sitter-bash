@@ -1748,3 +1748,59 @@ echo {0..2}{1..2}
       (brace_expression
         (number)
         (number)))))
+
+================================================================================
+Substring expansions with a variable offset
+================================================================================
+
+echo ${s:$i}
+echo ${s:$i+1}
+echo ${s:$i-1:1}
+echo ${@:$#}
+echo ${s:$i:$n}
+
+--------------------------------------------------------------------------------
+
+(program
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)
+      (simple_expansion
+        (variable_name))))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (number))))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (number))
+      (number)))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (special_variable_name)
+      (simple_expansion
+        (special_variable_name))))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)
+      (simple_expansion
+        (variable_name))
+      (simple_expansion
+        (variable_name)))))
